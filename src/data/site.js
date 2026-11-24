@@ -7,7 +7,7 @@ export const demoSite = {
   brand: {
     name: "Spargolo",
     tagline: "Vini & Cicchetti",
-    title: "Spargolo — Vini, cicchetti e serate che restano.",
+    title: "Spargolo — Bacaro di famiglia a Milano",
   },
   contact: {
     address: "Viale Romagna 37, Milano",
@@ -40,11 +40,11 @@ export const demoSite = {
     closedLabel: "Lunedì",
   },
   hero: {
-    eyebrow: "Un’anima veneziana. Un indirizzo milanese.",
-    heading: "Il gusto di",
-    emphasis: "fermarsi.",
+    eyebrow: "Bacaro di famiglia · Milano",
+    heading: "Un posto",
+    emphasis: "a tavola.",
     description:
-      "Cicchetti, calici e chiacchiere. Da Spargolo, a Milano, le serate più belle cominciano dalle cose semplici.",
+      "A Città Studi serviamo cicchetti veneziani e vini scelti con cura. Al banco c’è sempre tempo per due chiacchiere.",
     scenes: [
       {
         id: "food",
@@ -81,28 +81,28 @@ export const demoSite = {
     ],
   },
   story: {
-    eyebrow: "Piacere, siamo Spargolo.",
-    heading: ["Qui il tempo", "si misura"],
-    emphasis: "in calici.",
+    eyebrow: "La nostra storia",
+    heading: ["Un angolo di Venezia"],
+    emphasis: "a Milano.",
     paragraphs: [
-      "Abbiamo portato a Milano una piccola idea di Venezia: il bacaro. Un posto dove assaggiare, chiacchierare e lasciarsi consigliare qualcosa di buono.",
-      "Cicchetti, vini scelti con curiosità e il piacere semplice di stare insieme. Entri per un aperitivo. Il resto viene da sé.",
+      "Spargolo è il nostro modo di vivere il bacaro a Milano. Al banco si sceglie il vino insieme, si ordina qualche cicchetto e si fa spazio per chi arriva.",
+      "Ci piace quando qualcuno entra per un aperitivo e resta a parlare. È il tipo di serata per cui abbiamo voluto un posto tutto nostro.",
     ],
     image: asset("locale-sala.webp"),
     alt: "Tavoli in legno, fiori e interni del locale",
-    caption: "Il tuo prossimo «solito posto».",
+    caption: "La sala di Spargolo, in Viale Romagna.",
   },
   family: {
-    eyebrow: "Un grappolo un po’ sparso.",
-    heading: ["Una famiglia.", "Mille storie."],
-    emphasis: "Un solo tavolo.",
+    eyebrow: "La famiglia dietro il banco",
+    heading: ["Acini sparsi,"],
+    emphasis: "stesso grappolo.",
     paragraphs: [
-      "«Spargolo» è un grappolo d’uva con gli acini un po’ distanti. Ci somiglia: percorsi diversi, una famiglia e un sogno che ci ha ritrovati qui.",
-      "Tra un consiglio sul vino e un piattino da dividere, ci piace pensare che ci sia spazio anche per la tua storia.",
+      "Un grappolo spargolo ha gli acini un po’ distanti tra loro. Nel nome ci siamo riconosciuti: ognuno con il suo percorso, tutti legati a questo posto.",
+      "Al banco ci piace raccontarti il vino che stiamo versando. A tavola, il bello è dividere un piattino e avere ancora qualcosa da dirsi.",
     ],
     image: asset("famiglia.webp"),
     alt: "La famiglia di Spargolo davanti all’ingresso",
-    caption: "Persone vere. Vino buono. La nostra idea di ospitalità.",
+    caption: "La famiglia di Spargolo davanti al locale.",
   },
   reviews: {
     sourceNote:

@@ -4,7 +4,7 @@ import { Wordmark } from "./Shared";
 export default function Header({ site, onBook }) {
   const [open, setOpen] = useState(false);
   const links = [
-    ["#rituale", "Il nostro mondo"],
+    ["#rituale", "La nostra storia"],
     ["#menu", "Il menu"],
     ["#vini", "I vini"],
     ["#dove", "Vieni a trovarci"],
@@ -33,7 +33,7 @@ export default function Header({ site, onBook }) {
           onBook();
         }}
       >
-        Un tavolo per noi <span>↗</span>
+        Prenota un tavolo
       </button>
       <button
         className="mobile-toggle"

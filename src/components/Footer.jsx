@@ -34,12 +34,8 @@ export default function Footer({ site, onBook, onInfo }) {
         </div>
       </footer>
       <div className="mobile-bottom">
-        <a href="#menu">
-          Il menu <span>↗</span>
-        </a>
-        <button onClick={onBook}>
-          Un tavolo per noi <span>↗</span>
-        </button>
+        <a href="#menu">Il menu</a>
+        <button onClick={onBook}>Prenota un tavolo</button>
       </div>
     </>
   );

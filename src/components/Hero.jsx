@@ -1,135 +1,92 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { usePlayback } from "../hooks/usePlayback";
 
 export default function Hero({ site, onBook }) {
-  const [active, setActive] = useState(site.hero.scenes[0].id);
+  const { scenes } = site.hero;
+  const [active, setActive] = useState(
+    () => scenes.find((scene) => scene.id === "room")?.id ?? scenes[0].id,
+  );
   const [paused, setPaused] = useState(false);
-  const [time, setTime] = useState("CIAO, MILANO");
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const mobile = useMediaQuery("(max-width: 760px)");
   const videoRef = useRef(null);
-  const sceneIndex = Math.max(
-    0,
-    site.hero.scenes.findIndex((scene) => scene.id === active),
-  );
-  const scene = site.hero.scenes[sceneIndex];
-  usePlayback(videoRef, scene.type === "video" && !paused && !reduced);
-  useEffect(() => {
-    const tick = () =>
-      setTime(
-        `MILANO, ${new Intl.DateTimeFormat("it-IT", { timeZone: site.booking.timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date())}`,
-      );
-    tick();
-    const timer = setInterval(tick, 60000);
-    return () => clearInterval(timer);
-  }, [site.booking.timeZone]);
+  const scene = scenes.find((item) => item.id === active) ?? scenes[0];
+  const isVideo = scene.type === "video";
+  usePlayback(videoRef, isVideo && !paused && !reduced);
+
   return (
     <section className="hero-reimagined" aria-labelledby="hero-title">
-      <div
-        className="opening-media"
-        aria-label="Un assaggio del mondo di Spargolo"
-      >
-        {site.hero.scenes.map((item) =>
-          item.type === "video" ? (
+      <div className="opening-introduction">
+        <p className="eyebrow">{site.hero.eyebrow}</p>
+        <h1 id="hero-title">
+          {site.hero.heading} <em>{site.hero.emphasis}</em>
+        </h1>
+        <p className="opening-description">{site.hero.description}</p>
+        <div className="opening-actions">
+          <button className="button opening-book" onClick={onBook}>
+            Prenota un tavolo
+          </button>
+          <a href="#menu" className="text-link">
+            Esplora il menu
+          </a>
+        </div>
+        <a className="opening-address" href="#dove">
+          {site.contact.address} · {site.contact.district}
+        </a>
+      </div>
+      <div className="opening-gallery">
+        <figure className="opening-media">
+          {isVideo ? (
             <video
-              key={item.id}
+              key={scene.id}
               ref={videoRef}
-              className={`opening-visual ${scene.id === item.id ? "is-active" : ""}`}
+              className="opening-visual"
               muted
               loop
               playsInline
               preload="metadata"
-              poster={item.poster}
-              src={mobile ? item.mobileSrc : item.src}
-              aria-label={item.alt}
-              aria-hidden={scene.id !== item.id}
+              poster={scene.poster}
+              src={mobile ? scene.mobileSrc || scene.src : scene.src}
+              aria-label={scene.alt}
             />
           ) : (
             <img
-              key={item.id}
-              className={`opening-visual ${scene.id === item.id ? "is-active" : ""}`}
-              id={`opening-${item.id}`}
-              src={item.src}
-              alt={item.alt}
-              aria-hidden={scene.id !== item.id}
-              loading="lazy"
+              key={scene.id}
+              className="opening-visual"
+              data-scene={scene.id}
+              src={scene.src}
+              alt={scene.alt}
+              fetchPriority={scene.id === "room" ? "high" : "auto"}
             />
-          ),
-        )}
-        <div className="opening-shade" aria-hidden="true" />
-        <div className="opening-topline">
-          <span>VINI, CICCHETTI & BUONA COMPAGNIA</span>
-          <span>{time}</span>
-        </div>
-        <div className="opening-scene-copy">
-          <span className="opening-scene-label">
-            {String(sceneIndex + 1).padStart(2, "0")} /{" "}
-            {scene.caption.toUpperCase()}
-          </span>
-          <p>
-            {scene.heading}
-            <br />
-            <em>{scene.emphasis}</em>
-          </p>
-        </div>
-        <div className="opening-controls">
-          <div
-            className="scene-picker"
-            role="group"
-            aria-label="Esplora il mondo di Spargolo"
-          >
-            {site.hero.scenes.map((item, index) => (
-              <button
-                key={item.id}
-                data-scene={item.id}
-                aria-pressed={scene.id === item.id}
-                onClick={() => setActive(item.id)}
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {item.label}
-              </button>
-            ))}
-          </div>
-          {scene.type === "video" && (
+          )}
+          {isVideo && !reduced && (
             <button
+              type="button"
               className="opening-pause"
-              aria-label={
-                paused || reduced
-                  ? "Riproduci il video"
-                  : "Metti in pausa il video"
-              }
+              aria-label={paused ? "Riproduci il video" : "Metti in pausa il video"}
               onClick={() => setPaused(!paused)}
-              disabled={reduced}
-              title={
-                reduced
-                  ? "Movimento ridotto nelle preferenze del dispositivo"
-                  : undefined
-              }
             >
-              {paused || reduced ? "▶" : "Ⅱ"}
+              <span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span>
             </button>
           )}
+        </figure>
+        <div
+          className="scene-picker"
+          role="group"
+          aria-label="Esplora il mondo di Spargolo"
+        >
+          {scenes.map((item) => (
+            <button
+              type="button"
+              key={item.id}
+              aria-pressed={scene.id === item.id}
+              onClick={() => setActive(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
-      </div>
-      <div className="opening-introduction">
-        <p className="eyebrow burgundy">{site.hero.eyebrow}</p>
-        <h1 id="hero-title">
-          {site.hero.heading} <em>{site.hero.emphasis}</em>
-        </h1>
-        <p>{site.hero.description}</p>
-        <div className="opening-actions">
-          <button className="button opening-book" onClick={onBook}>
-            Prenota la tua serata <span>↗</span>
-          </button>
-          <a href="#menu" className="text-link">
-            Lasciati tentare dal menu <span>↓</span>
-          </a>
-        </div>
-        <span className="opening-address">
-          {site.contact.address.toUpperCase()} ·{" "}
-          {site.contact.district.toUpperCase()}
-        </span>
       </div>
     </section>
   );

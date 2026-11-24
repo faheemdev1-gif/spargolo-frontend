@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Kicker, Reveal } from "./Shared";
+import { Reveal } from "./Shared";
 
 function Heading({ content }) {
   return (
@@ -19,18 +19,10 @@ export function Story({ site }) {
   const content = site.story;
   return (
     <section className="ritual section" id="rituale">
-      <Kicker aside="NESSUNA FRETTA.">
-        01 / IL NOSTRO MODO DI STARE INSIEME
-      </Kicker>
       <div className="ritual-grid">
-        <Reveal className="ritual-photo">
+        <Reveal as="figure" className="ritual-photo">
           <img src={content.image} alt={content.alt} loading="lazy" />
-          <span className="photo-label">{content.caption}</span>
-          <div className="photo-stamp">
-            UN PO’
-            <br />
-            <em>come a casa.</em>
-          </div>
+          <figcaption>{content.caption}</figcaption>
         </Reveal>
         <Reveal className="ritual-copy">
           <p className="eyebrow burgundy">{content.eyebrow}</p>
@@ -39,7 +31,7 @@ export function Story({ site }) {
             <p key={p}>{p}</p>
           ))}
           <a className="text-link" href="#famiglia">
-            Ti presentiamo la famiglia <span>↗</span>
+            Conosci la famiglia
           </a>
         </Reveal>
       </div>
@@ -51,7 +43,6 @@ export function Family({ site }) {
   const content = site.family;
   return (
     <section className="family-section section" id="famiglia">
-      <Kicker aside="LE PERSONE FANNO IL POSTO.">04 / DIETRO IL BANCONE</Kicker>
       <div className="family-grid">
         <Reveal className="family-copy">
           <p className="eyebrow burgundy">{content.eyebrow}</p>
@@ -59,7 +50,6 @@ export function Family({ site }) {
           {content.paragraphs.map((p) => (
             <p key={p}>{p}</p>
           ))}
-          <span className="handwritten">Ci vediamo al banco.</span>
         </Reveal>
         <Reveal as="figure" className="family-photo">
           <img src={content.image} alt={content.alt} loading="lazy" />
@@ -75,11 +65,6 @@ export function Visit({ site, onBook }) {
     <section className="visit-section" id="dove">
       <div className="visit-image">
         <img src={site.visit.image} alt={site.visit.alt} loading="lazy" />
-        <span>
-          LA PORTA ROSSA.
-          <br />
-          LA SERATA GIUSTA.
-        </span>
       </div>
       <div className="visit-copy">
         <p className="eyebrow">Il prossimo giro, qui.</p>
@@ -114,19 +99,5 @@ export function Visit({ site, onBook }) {
         </div>
       </div>
     </section>
-  );
-}
-
-export function Ribbon() {
-  return (
-    <div className="ribbon" aria-hidden="true">
-      <div>
-        {[0, 1, 2].map((i) => (
-          <Fragment key={i}>
-            UN CALICE, DUE CICCHETTI, MILLE COSE DA DIRSI <span>✳</span>{" "}
-          </Fragment>
-        ))}
-      </div>
-    </div>
   );
 }

@@ -1,8 +1,8 @@
 # Spargolo — React frontend
 
-A genuine React + Vite application, converted from the latest Spargolo design. There is no iframe, embedded legacy application, or plain-JavaScript page hidden behind React. The header, cinematic opening, menu, wine discovery, selection, and reservation flow are React components.
+A React and Vite website for Spargolo, a family-run bacaro in Milan.
 
-The design uses warm ivory, burgundy accents, generous space, and venue photography. The old solid-green opening is not included.
+The design takes its olive green, warm cream, brass and brick-red accents from the bar’s interior. The homepage opens with the venue photograph and introduces the family’s story.
 
 ## 1. Run on your Mac
 
@@ -54,7 +54,7 @@ Official references: [Vercel's Vite guide](https://vercel.com/docs/frameworks/fr
 
 ## 4. What works now
 
-- Food video with pause control and switches for food, venue, and wine scenes.
+- Venue photograph with switches for the food video and wine scene. The food video has a pause control.
 - Responsive desktop and mobile layouts; persistent mobile menu/booking actions.
 - Menu categories, full-menu dialog, quantities, and selection totals.
 - A selection enquiry preview. This is not paid checkout or an accepted restaurant order.

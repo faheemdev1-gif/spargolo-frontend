@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { money, cartTotal } from "../lib/domain";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { usePlayback } from "../hooks/usePlayback";
-import { CloseButton, Dialog, Kicker } from "./Shared";
+import { CloseButton, Dialog } from "./Shared";
 
 function DishMedia({ item }) {
   const ref = useRef(null);
@@ -62,12 +62,9 @@ export default function MenuSection({
   };
   return (
     <section className="menu-section section" id="menu">
-      <Kicker aside="DA GUARDARE. DA SCEGLIERE. DA CONDIVIDERE.">
-        02 / PICCOLE COSE, FATTE BENE
-      </Kicker>
       <div className="menu-heading">
         <div>
-          <p className="eyebrow burgundy">Il banco delle tentazioni</p>
+          <p className="eyebrow burgundy">Il menu</p>
           <h2>
             Uno tira <em>l’altro.</em>
           </h2>
@@ -142,14 +139,10 @@ export default function MenuSection({
         tabIndex={0}
       >
         <div className="menu-rail" ref={rail}>
-          {items.map((item, index) => (
+          {items.map((item) => (
             <article className="menu-card" key={item.id}>
               <div className="dish-image">
                 <DishMedia item={item} />
-                <span className="dish-number">
-                  {String(index + 1).padStart(2, "0")} /{" "}
-                  {category.name.toUpperCase()}
-                </span>
                 <button
                   className={`dish-add ${cart[item.id] ? "selected" : ""}`}
                   onClick={() => onQuantity(item.id, 1)}

@@ -12,18 +12,9 @@ export function Wordmark({ onClick, name = "Spargolo" }) {
     >
       {name.toLowerCase()}
       <span className="logo-dot" aria-hidden="true">
-        ✳
+        ✻
       </span>
     </a>
-  );
-}
-
-export function Kicker({ children, aside }) {
-  return (
-    <div className="section-kicker">
-      <span>{children}</span>
-      {aside && <span>{aside}</span>}
-    </div>
   );
 }
 

@@ -7,7 +7,7 @@ import BookingDialog from "./components/BookingDialog";
 import OrderDialog from "./components/OrderDialog";
 import Footer from "./components/Footer";
 import ReviewsSection from "./components/ReviewsSection";
-import { Story, Family, Visit, Ribbon } from "./components/StorySections";
+import { Story, Family, Visit } from "./components/StorySections";
 import { CloseButton, Dialog } from "./components/Shared";
 import { demoSite } from "./data/site";
 import { apiEnabled, loadPublicContent } from "./lib/api";
@@ -109,7 +109,6 @@ export default function App() {
       <Header site={site} onBook={() => setModal("booking")} />
       <main id="main">
         <Hero site={site} onBook={() => setModal("booking")} />
-        <Ribbon />
         <Story site={site} />
         <MenuSection
           site={site}

@@ -1,5 +1,4 @@
 import { Fragment, useState } from "react";
-import { Kicker } from "./Shared";
 
 export default function WineDiscovery({ site }) {
   const [active, setActive] = useState(site.wineMoods[0].id);
@@ -10,10 +9,9 @@ export default function WineDiscovery({ site }) {
   const mood = site.wineMoods[index];
   return (
     <section className="wine-section section" id="vini">
-      <Kicker aside="TI TROVIAMO UN CALICE.">03 / DIMMI COME TI SENTI</Kicker>
       <div className="wine-grid">
         <div className="wine-copy">
-          <p className="eyebrow">La carta, senza la lezione.</p>
+          <p className="eyebrow">I vini</p>
           <h2>
             Che serata
             <br />
@@ -45,12 +43,9 @@ export default function WineDiscovery({ site }) {
         <div className="wine-stage">
           <div className="wine-orbit orbit-one" aria-hidden="true" />
           <div className="wine-orbit orbit-two" aria-hidden="true" />
-          <span className="wine-stage-label">IL TUO MOOD, NEL CALICE</span>
           <img src={mood.image} alt={mood.alt} loading="lazy" />
           <div className="wine-note" aria-live="polite">
-            <span>
-              {String(index + 1).padStart(2, "0")} / {mood.type.toUpperCase()}
-            </span>
+            <span>{mood.type.toUpperCase()}</span>
             <h3>
               {mood.heading.map((line, i) => (
                 <Fragment key={line}>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Kicker } from "./Shared";
 
 export default function ReviewsSection({ reviews, onBook }) {
   const [active, setActive] = useState(0);
@@ -15,21 +14,15 @@ export default function ReviewsSection({ reviews, onBook }) {
       id="recensioni"
       aria-labelledby="reviews-title"
     >
-      <Kicker aside="LE PAROLE DI CHI È STATO QUI.">05 / DICONO DI NOI</Kicker>
       <div className="reviews-heading">
         <div>
-          <p className="eyebrow burgundy">Le persone, prima di tutto.</p>
+          <p className="eyebrow burgundy">Dicono di noi</p>
           <h2 id="reviews-title">
             Le serate belle
             <br />
             <em>lasciano parole.</em>
           </h2>
         </div>
-        <p>
-          Un buon calice si ricorda.
-          <br />
-          Come le persone con cui lo hai condiviso.
-        </p>
       </div>
 
       <div className="reviews-editorial">
