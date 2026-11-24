@@ -82,9 +82,7 @@
 .hero-reimagined {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  max-width: 1680px;
-  margin: 0 auto;
-  padding: clamp(18px, 3.2vw, 46px) 5% clamp(24px, 4vw, 60px);
+  margin-bottom: clamp(24px, 4vw, 60px);
 }
 .opening-introduction {
   display: flex;
@@ -271,8 +269,6 @@
   }
   .hero-reimagined {
     grid-template-columns: 1fr;
-    padding-inline: 0;
-    padding-top: 0;
   }
   .opening-introduction {
     padding: 34px 7% 28px;

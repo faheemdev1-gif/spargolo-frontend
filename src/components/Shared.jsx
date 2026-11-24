@@ -9,6 +9,7 @@ export function Wordmark({ onClick, name = "Spargolo" }) {
       className="wordmark"
       onClick={onClick}
       aria-label={`${name}, inizio`}
+      translate="no"
     >
       {name.toLowerCase()}
       <span className="logo-dot" aria-hidden="true">
