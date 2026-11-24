@@ -19,9 +19,9 @@ function DishMedia({ item }) {
       poster={item.image}
       aria-label={`Presentazione di ${item.name}`}
     />
-  ) : (
+  ) : item.image ? (
     <img src={item.image} alt={item.name} loading="lazy" />
-  );
+  ) : null;
 }
 
 export default function MenuSection({
@@ -141,7 +141,7 @@ export default function MenuSection({
         <div className="menu-rail" ref={rail}>
           {items.map((item) => (
             <article className="menu-card" key={item.id}>
-              <div className="dish-image">
+              <div className={item.image || item.video ? "dish-image" : "dish-image dish-image--plain"}>
                 <DishMedia item={item} />
                 <button
                   className={`dish-add ${cart[item.id] ? "selected" : ""}`}
@@ -157,6 +157,9 @@ export default function MenuSection({
                 <strong>{money(item.priceCents)}</strong>
               </div>
               <p className="dish-description">{item.description}</p>
+              {item.allergens?.length > 0 && (
+                <p className="dish-description">Allergeni: {item.allergens.join(", ")}</p>
+              )}
             </article>
           ))}
           {!items.length && (

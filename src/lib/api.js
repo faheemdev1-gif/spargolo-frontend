@@ -1,7 +1,7 @@
 // Public API boundary. Admin credentials never belong in this frontend.
-const mode = import.meta.env.VITE_DATA_MODE || "demo";
+const mode = import.meta.env.VITE_DATA_MODE || "api";
 export const apiEnabled = mode === "api";
-const baseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const baseUrl = (import.meta.env.VITE_API_BASE_URL || "/api/v1").replace(/\/$/, "");
 
 async function request(path, options = {}) {
   if (!apiEnabled || !baseUrl)

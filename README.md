@@ -1,100 +1,51 @@
-# Spargolo — React frontend
+# Spargolo
 
-A React and Vite website for Spargolo, a family-run bacaro in Milan.
+A React and Vite website with an Italian-language staff dashboard at `/admin`. The public site and dashboard use the same Node.js API at `/api/v1`. PostgreSQL stores the menu, uploaded product photos, reservations and menu requests.
 
-The design takes its olive green, warm cream, brass and brick-red accents from the bar’s interior. The homepage opens with the venue photograph and introduces the family’s story.
+## Run it on your Mac
 
-## 1. Run on your Mac
-
-Use Node.js 24 LTS. The project requires Node.js 22.12 or later.
+Use Node.js 24. Open Terminal in the extracted `spargolo-react` folder and run:
 
 ```bash
-cd spargolo-react
 npm ci
+npm run admin:create -- you@example.com
 npm run dev
 ```
 
-Open the local URL printed by Vite. To check the production build:
+Use your email address in the second command. Save the generated password shown in Terminal. From the address printed by Vite, open `/admin` and sign in with those credentials. Vite runs the React site and API together. The local database persists in `.data/spargolo`. Running the admin command again for the same email creates a new password and ends that account’s sessions. Stop the local site before running the admin command against its embedded database.
 
-```bash
-npm run build
-npm run preview
-```
+## Manage the bar
 
-## 2. Push to GitHub
+| Dashboard area | What staff can manage |
+| --- | --- |
+| **Menu** | Add and rename categories, set their order, and archive or restore them. Add products to any active category and edit names, descriptions, prices in euros, allergens, photos, display order and availability. |
+| **Prenotazioni** | Review and filter bookings, enter requests received by phone, reschedule, change the party size, confirm or decline, and see the request history. |
+| **Richieste** | Review menu enquiries, record requests received in person, and update their status. Each request keeps the item names, quantities and prices supplied by the server at the time of submission. |
+| **Impostazioni** | Set booking times, closures, optional maximum confirmed covers per arrival slot, contacts and homepage story. Enable online submissions when the venue is ready. |
+| **Account** | Change the password. Each staff member can have a separate login created from the command line. |
 
-Create an empty GitHub repository. Run these commands **inside `spargolo-react`**, where `package.json` is located. Replace the example URL with your repository URL.
+For photos, choose a JPEG, PNG or WebP. The browser resizes new uploads before saving them. The included products and opening hours are sample data. Edit or archive them before enabling submissions. Menu edits appear when guests reload the site.
 
-```bash
-git init
-git add .
-git commit -m "Add Spargolo React frontend"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/spargolo-frontend.git
-git push -u origin main
-```
+Guest bookings and menu enquiries arrive as pending. Staff can contact the guest from the dashboard using the email and telephone links. Status changes are recorded in the dashboard. No automatic guest email, card payments, delivery or table assignment is configured.
 
-The ZIP excludes `.git`, `node_modules`, compiled output, and credentials. The included lockfile makes installation reproducible. `node_modules` and `dist` are ignored by Git.
+## Deploy to the existing Vercel project
 
-## 3. Deploy on Vercel
+1. In Vercel, connect a PostgreSQL database to the Spargolo project. Neon is one option. A pooled connection string works for the API. Use a dedicated database for a preview deployment if you want to try the dashboard with sample records.
+2. Locally, run `npm ci` and `npm run admin:credentials -- you@example.com`. Keep the generated sign-in password private.
+3. In the Vercel project’s server-side environment variables, add **`DATABASE_URL`**, **`SPARGOLO_ADMIN_EMAIL`**, and **`SPARGOLO_ADMIN_PASSWORD_HASH`**. Use the first two lines from the credentials command for the last two variables. Use no `VITE_` prefix for credentials.
+4. Put the extracted project files at the root of the GitHub repository currently connected to Vercel. Deploy with the **Vite** preset, Node.js 24, `npm run build`, and output directory `dist`. The included `vercel.json` serves `/admin` and routes `/api/v1` to the Node.js function.
+5. After deployment, open `/admin`. The API creates its tables and seeds the example menu on the first database connection. Check the menu and booking times, then turn on online submissions under **Impostazioni → Richieste online**. Refresh the public site to confirm the change.
 
-1. Import the GitHub repository in Vercel.
-2. Select the **Vite** framework preset.
-3. Use the repository root as the Root Directory. `package.json` must be at that root.
-4. Build Command: `npm run build`.
-5. Output Directory: `dist`.
-6. Use Node.js 24 in the project settings.
-7. Deploy.
+Without `DATABASE_URL`, the production homepage runs in demo mode. If the existing Vercel project explicitly sets `VITE_DATA_MODE=demo`, remove that variable or change it to `api` to connect the public site to the backend. The bootstrap variables provision an account only if its email is new. For additional accounts or password recovery, set `DATABASE_URL` in your private local environment and run `npm run admin:create -- email@example.com` against that database.
 
-`vercel.json` already supplies the framework, build command, and output directory. This version needs no database, credentials, or environment variables. Once GitHub is connected, later pushes trigger new deployments.
+References: [Vercel PostgreSQL](https://vercel.com/docs/postgres), [Vercel Node.js Functions](https://vercel.com/docs/functions/runtimes/node-js).
 
-This is a one-page site with section anchors and dialogs, so no SPA route rewrite is needed. Assets and fonts are included locally; the exported application does not require ChatGPT sign-in.
-
-Official references: [Vercel's Vite guide](https://vercel.com/docs/frameworks/frontend/vite), [Vite deployment guide](https://vite.dev/guide/static-deploy).
-
-## 4. What works now
-
-- Venue photograph with switches for the food video and wine scene. The food video has a pause control.
-- Responsive desktop and mobile layouts; persistent mobile menu/booking actions.
-- Menu categories, full-menu dialog, quantities, and selection totals.
-- A selection enquiry preview. This is not paid checkout or an accepted restaurant order.
-- Reservation preview with date, party size, preferred time, contact details, notes, menu preferences, and review.
-- Wine discovery with four taste moods.
-- An editorial reviews section with attributed excerpts, star ratings, matching photography, manual navigation, and a booking link.
-- Keyboard-accessible dialogs and tabs, reduced-motion support, and offscreen video pausing.
-
-## 5. Important current boundary
-
-The default mode is **demo**. Menu names, compositions, prices, time slots, and booking rules are illustrative and marked accordingly. The owner must supply the final menu, allergen information, current hours, and booking policy.
-
-In demo mode, guest details exist only in React memory while a dialog is open. They are not saved, emailed, sent to a server, or restored after reload. Completing a preview does not reserve a table, submit an order, or charge a payment. Order and booking administration is the next phase; no admin panel or database is claimed in this ZIP.
-
-## 6. Edit the content
-
-Edit `src/data/site.js` for the brand, contact details, hours, hero scenes, story, family content, menu categories/items, prices, wine moods, and review excerpts. Prices use integer cents (`450` means €4.50). Media is in `public/assets/`. Keep menu item IDs stable when editing items.
-
-React components are in `src/components/`. Styles are in `src/styles/site.css`. Booking, cart, and request data rules are in `src/lib/domain.js`.
-
-See `ASSETS.md` for media provenance and `BACKEND_PLAN.md` for the next phase.
-
-## 7. Connect the future backend
-
-Only after a compatible backend exists, set these variables in Vercel and redeploy:
-
-```dotenv
-VITE_DATA_MODE=api
-VITE_API_BASE_URL=https://YOUR-BACKEND.example/api/v1
-```
-
-The frontend will request `GET /public/content` and use the public submission endpoints documented in `BACKEND_PLAN.md`. Content must match the versioned structure of `demoSite`. Set `preview: false` **only when the owner-approved content and real booking/order services are ready**.
-
-API mode fails visibly if the service is unavailable; it does not silently show a fake success or substitute demo content. Mutations require a real server response containing a record ID. Requests include idempotency keys so a backend can deduplicate retries. No admin secret belongs in a `VITE_` variable because these variables are public browser configuration.
-
-## 8. Checks
+## Verify locally
 
 ```bash
 npm test
 npm run build
+npm run preview
 ```
 
-Domain tests cover quantities and totals, venue-local dates around daylight-saving changes, closed dates and lead times, booking payloads, and order requests that leave final pricing to the server. The final production build is also checked in a browser before delivery.
+The integration tests exercise login, category and product edits, photo storage, guest submissions, duplicate retries, price snapshots, reservation limits and session revocation. See `BACKEND_PLAN.md` for the implemented API and `ASSETS.md` for provenance of the original imagery.

@@ -2296,3 +2296,22 @@ dialog[open] {
     border-color: Highlight;
   }
 }
+
+.tabs {
+  min-width: 0;
+  overflow-x: auto;
+  padding: 5px;
+}
+.tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.rail-controls {
+  flex: 0 0 auto;
+  margin-left: 12px;
+}
+.dish-image.dish-image--plain {
+  height: 108px;
+  border-radius: 3px;
+  background: var(--green);
+}

@@ -80,7 +80,8 @@ export function isBookableDate(key, rules, now = new Date()) {
   return (
     key >= today &&
     key <= addDays(today, rules.horizonDays) &&
-    !rules.closedWeekdays.includes(date.getUTCDay())
+    !rules.closedWeekdays.includes(date.getUTCDay()) &&
+    !rules.closedDates?.includes(key)
   );
 }
 

@@ -109,7 +109,7 @@ export default function OrderDialog({
             <div className="order-items">
               {lines.map((item) => (
                 <article className="order-line" key={item.id}>
-                  <img src={item.image} alt="" />
+                  {item.image ? <img src={item.image} alt="" /> : <span aria-hidden="true" />}
                   <div>
                     <h3>{item.name}</h3>
                     <span>{money(item.priceCents)}</span>
