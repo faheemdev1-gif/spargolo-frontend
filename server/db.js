@@ -12,23 +12,26 @@ export function postgresDatabase(connectionString) {
     max: 4,
     connectionTimeoutMillis: 8_000,
     idleTimeoutMillis: 10_000,
-    statement_timeout: 10_000,
+    query_timeout: 12_000,
   });
   pool.on("error", (error) => console.error("Spargolo database pool error", error.code));
   return {
     query: (sql, args) => pool.query(sql, args),
     async transaction(operation) {
       const client = await pool.connect();
+      let rollbackError;
       try {
         await client.query("BEGIN");
+        // PgBouncer can reject statement_timeout in the connection startup packet.
+        await client.query("SET LOCAL statement_timeout = '10s'");
         const result = await operation(client);
         await client.query("COMMIT");
         return result;
       } catch (error) {
-        await client.query("ROLLBACK").catch(() => {});
+        await client.query("ROLLBACK").catch((failure) => { rollbackError = failure; });
         throw error;
       } finally {
-        client.release();
+        client.release(rollbackError);
       }
     },
     close: () => pool.end(),
@@ -56,9 +59,12 @@ async function seedCatalog(tx) {
 
 export async function initializeDatabase(db, env = {}) {
   const email = env.SPARGOLO_ADMIN_EMAIL?.trim().toLowerCase();
-  const passwordHash = env.SPARGOLO_ADMIN_PASSWORD_HASH;
+  const passwordHash = env.SPARGOLO_ADMIN_PASSWORD_HASH?.trim();
   if ((email || passwordHash) && (!email || !isPasswordHash(passwordHash))) {
-    throw new Error("Set both SPARGOLO_ADMIN_EMAIL and a generated SPARGOLO_ADMIN_PASSWORD_HASH.");
+    throw Object.assign(
+      new Error("Set both SPARGOLO_ADMIN_EMAIL and a generated SPARGOLO_ADMIN_PASSWORD_HASH."),
+      { code: "ADMIN_CONFIGURATION_INVALID" },
+    );
   }
 
   await db.transaction(async (tx) => {
